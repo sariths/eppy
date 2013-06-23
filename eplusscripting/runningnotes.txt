@@ -1,3 +1,8 @@
+2013-06-23
+----------
+- idf object type - objtype
+- idf object name - objname
+- idf object - idfobject
 2013-06-21
 ----------
 update all ex_*.py files to using IDF
