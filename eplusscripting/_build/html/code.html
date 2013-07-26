@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Auto Generated Documentation &mdash; eppy 0.31 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.31',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="eppy 0.31 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to eppy’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to eppy’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">eppy 0.31 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-modeleditor">
+<span id="auto-generated-documentation"></span><h1>Auto Generated Documentation<a class="headerlink" href="#module-modeleditor" title="Permalink to this headline">¶</a></h1>
+<p>functions to edit the E+ model</p>
+<dl class="function">
+<dt id="modeleditor.addobject">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">addobject</tt><big>(</big><em>bunchdt</em>, <em>data</em>, <em>commdct</em>, <em>key</em>, <em>aname=''</em><big>)</big><a class="headerlink" href="#modeleditor.addobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>add an object to the eplus model</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.addobject1">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">addobject1</tt><big>(</big><em>bunchdt</em>, <em>data</em>, <em>commdct</em>, <em>key</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#modeleditor.addobject1" title="Permalink to this definition">¶</a></dt>
+<dd><p>add an object to the eplus model</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.addthisbunch">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">addthisbunch</tt><big>(</big><em>data</em>, <em>commdct</em>, <em>thisbunch</em><big>)</big><a class="headerlink" href="#modeleditor.addthisbunch" title="Permalink to this definition">¶</a></dt>
+<dd><p>add a bunch to model.
+abunch usually comes from another idf file
+or it can be used to copy within the idf file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.extendlist">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">extendlist</tt><big>(</big><em>lst</em>, <em>i</em>, <em>value=''</em><big>)</big><a class="headerlink" href="#modeleditor.extendlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>extend the list so that you have i-th value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.getextensibleindex">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">getextensibleindex</tt><big>(</big><em>bunchdt</em>, <em>data</em>, <em>commdct</em>, <em>key</em>, <em>objname</em><big>)</big><a class="headerlink" href="#modeleditor.getextensibleindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the index of the first extensible item</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.getnamedargs">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">getnamedargs</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#modeleditor.getnamedargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>allows you to pass a dict and named args
+so you can pass ({&#8216;a&#8217;:5, &#8216;b&#8217;:3}, c=8) and get
+dict(a=5, b=3, c=8)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.getobject">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">getobject</tt><big>(</big><em>bunchdt</em>, <em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#modeleditor.getobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the object if you have the key and the name
+retunrs a list of objects, in case you have more than one
+You should not have more than one</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.iddofobject">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">iddofobject</tt><big>(</big><em>data</em>, <em>commdct</em>, <em>key</em><big>)</big><a class="headerlink" href="#modeleditor.iddofobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>from commdct, return the idd of the object key</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.namebunch">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">namebunch</tt><big>(</big><em>abunch</em>, <em>aname</em><big>)</big><a class="headerlink" href="#modeleditor.namebunch" title="Permalink to this definition">¶</a></dt>
+<dd><p>give the bunch object a name, if it has a Name field</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.newrawobject">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">newrawobject</tt><big>(</big><em>data</em>, <em>commdct</em>, <em>key</em><big>)</big><a class="headerlink" href="#modeleditor.newrawobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>make a new object for key</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.obj2bunch">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">obj2bunch</tt><big>(</big><em>data</em>, <em>commdct</em>, <em>obj</em><big>)</big><a class="headerlink" href="#modeleditor.obj2bunch" title="Permalink to this definition">¶</a></dt>
+<dd><p>make a new bunch object using the data object</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.poptrailing">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">poptrailing</tt><big>(</big><em>lst</em><big>)</big><a class="headerlink" href="#modeleditor.poptrailing" title="Permalink to this definition">¶</a></dt>
+<dd><p>pop the trailing items in lst that are blank</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.removeextensibles">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">removeextensibles</tt><big>(</big><em>bunchdt</em>, <em>data</em>, <em>commdct</em>, <em>key</em>, <em>objname</em><big>)</big><a class="headerlink" href="#modeleditor.removeextensibles" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove the extensible items in the object</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="modeleditor.renamebunch">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">renamebunch</tt><big>(</big><em>bunchdt</em>, <em>commdct</em>, <em>oldname</em>, <em>newname</em><big>)</big><a class="headerlink" href="#modeleditor.renamebunch" title="Permalink to this definition">¶</a></dt>
+<dd><p>rename this bunch and change name in all references</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="modeleditor.something">
+<em class="property">class </em><tt class="descclassname">modeleditor.</tt><tt class="descname">something</tt><big>(</big><em>arg</em><big>)</big><a class="headerlink" href="#modeleditor.something" title="Permalink to this definition">¶</a></dt>
+<dd><p>docstring for something</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="modeleditor.IDF1">
+<em class="property">class </em><tt class="descclassname">modeleditor.</tt><tt class="descname">IDF1</tt><big>(</big><em>idfname</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="modeleditor.IDF1.addidfobject">
+<tt class="descname">addidfobject</tt><big>(</big><em>idfobject</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.addidfobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>add idfobject to this model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="modeleditor.IDF1.getextensibleindex">
+<tt class="descname">getextensibleindex</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.getextensibleindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the index of the first extensible item</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="modeleditor.IDF1.getobject">
+<tt class="descname">getobject</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.getobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the object given key and name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="modeleditor.IDF1.newidfobject">
+<tt class="descname">newidfobject</tt><big>(</big><em>key</em>, <em>aname=''</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.newidfobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>add a new idfobject to the model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="modeleditor.IDF1.removeextensibles">
+<tt class="descname">removeextensibles</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.removeextensibles" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove extensible items in the object of key and name</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="modeleditor.IDF2">
+<em class="property">class </em><tt class="descclassname">modeleditor.</tt><tt class="descname">IDF2</tt><big>(</big><em>idfname</em><big>)</big><a class="headerlink" href="#modeleditor.IDF2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="modeleditor.IDF2.printidf">
+<tt class="descname">printidf</tt><big>(</big><big>)</big><a class="headerlink" href="#modeleditor.IDF2.printidf" title="Permalink to this definition">¶</a></dt>
+<dd><p>print the idf</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="modeleditor.IDF2.save">
+<tt class="descname">save</tt><big>(</big><big>)</big><a class="headerlink" href="#modeleditor.IDF2.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>save with comments</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="modeleditor.IDF">
+<tt class="descclassname">modeleditor.</tt><tt class="descname">IDF</tt><a class="headerlink" href="#modeleditor.IDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#modeleditor.IDF2" title="modeleditor.IDF2"><tt class="xref py py-class docutils literal"><span class="pre">IDF2</span></tt></a></p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to eppy&#8217;s documentation!</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/code.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to eppy’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">eppy 0.31 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Santosh Philip.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
