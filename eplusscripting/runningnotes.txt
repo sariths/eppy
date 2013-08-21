@@ -1,3 +1,31 @@
+2013-08-20
+----------
+steps
+- sphinx-quickstart
+- documentation in folder docs
+- cd ./docs
+- make html
+- put line 
+sys.path.insert(0, os.path.abspath('../'))
+and
+extensions = ['sphinx.ext.autodoc']
+in conf.py
+- modify index.rst as shown by inserting
+.. automodule:: modeleditor
+
+.. autoclass:: IDF0
+   :members:
+.. autoclass:: IDF1
+   :members:
+.. autoclass:: IDF2
+   :members:
+.. autoclass:: IDF
+   :members:
+
+used the following:
+http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/
+also see:
+http://stackoverflow.com/questions/13516404/sphinx-error-unknown-directive-type-automodule-or-autoclass
 2013-07-03
 ----------
 copy an object from within the idf

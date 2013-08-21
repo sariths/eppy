@@ -253,7 +253,11 @@ class IDF2(IDF1):
     # def __repr__(self):
     #     return self.model.__repr__()
 
-IDF = IDF2
+class IDF(IDF2):
+    """see IDF2, IDF1, IDF0 to see all the functions"""
+    def __init__(self, idfname):
+        super(IDF, self).__init__(idfname)
+        
         
                                     
 class something(IDF0):
