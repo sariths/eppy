@@ -41,15 +41,50 @@ def iddversiontuple(afile):
     return versiontuple(v)
     
 
-def makeabunch(commdct, obj, obj_i):
+def makeabunch(commdct, obj, obj_i, obj_type):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
     objfields = [comm.get('field') for comm in commdct[obj_i]]
     objfields[0] = ['key']
     objfields = [field[0] for field in objfields]
     obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
-    bobj = EpBunch(obj, obj_fields, objidd)
+    bobj = obj_type(obj, obj_fields, objidd)
     return bobj
+    
+    
+class Surface(object):
+    @property
+    def getcoords(self):
+        """return the coordinates of the surface"""
+        n_vertices_index = self.objls.index('Number_of_Vertices')
+        first_x = n_vertices_index + 1 # X of first coordinate
+        pts = self.obj[first_x:]
+        return list(grouper(3, pts))
+
+    @property
+    def area(self):
+        """area of the surface"""
+        coords = self.getcoords
+        return geometry.surface.area(coords)
+        
+        
+class Zone(object):
+    pass
+    
+    
+
+        
+
+
+SURFACES = ["BuildingSurface:Detailed",
+        "Wall:Detailed",
+        "RoofCeiling:Detailed",
+        "Floor:Detailed",
+        "FenestrationSurface:Detailed",
+        "Shading:Site:Detailed",
+        "Shading:Building:Detailed",
+        "Shading:Zone:Detailed",]
+    
 
 def makebunches(data, commdct):
     """make bunches with data"""
@@ -57,10 +92,14 @@ def makebunches(data, commdct):
     dt, dtls = data.dt, data.dtls
     for obj_i, key in enumerate(dtls):
         key = key.upper()
+        if key in SURFACES:
+            obj_type = Surface
+        else:
+            obj_type = EpBunch
         bunchdt[key] = []
         objs = dt[key]
         for obj in objs:
-            bobj = makeabunch(commdct, obj, obj_i)
+            bobj = makeabunch(commdct, obj, obj_i, obj_type)
             bunchdt[key].append(bobj)
     return bunchdt
 

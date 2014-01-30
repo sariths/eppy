@@ -43,6 +43,28 @@ def extendlist(lst, i, value=''):
     else:
         lst.extend([value, ] * (i - len(lst) + 1))
 
+
+class Rectangle(object):
+    """docstring for Point"""
+    def __init__(self, p1, p2):
+        super(Point, self).__init__()
+        self.arg = arg
+        
+    @property
+    def area(self):
+        return calculatedarea
+        
+    @area.setter
+    def area(self, value):
+        self._area = value
+        
+
+r = Rectangle((0, 0), (10, 10))
+r.area
+r.area = 2
+
+
+
 class EpBunch_1(Bunch):
     """Has data in bunch"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
