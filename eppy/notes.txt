@@ -1,3 +1,22 @@
+2014-02-12
+----------
+My notes from the hackathon on 2014-01-28
+Matt Good reviewed my code:
+- pyparsing may be a good bet to parse the idd file (If I choose to update the idd parser)
+- parsing of the idd file is what makes it easy to work in any version of the idf
+- 
+- the underlying code for the API is rather complicated. My concern is that there may be a simpler way to do this that I may be missing.
+
+Some understanding after reviewing the code:
+- The design of the API drove the coding. 
+- Even though the API is simple, it was hard to implement programmatically. 
+- The more advanced programming concepts of Python had to be used. 
+- This made the code hard to write and debug. 
+- End result was a simplicity in the final API
+
+Discussing with Matt also helped me get a birds eye view of the design of the project. Specifically on design issues when putting together a domain specific scripting language. (The domain here is Energyplus). How to leverage the language constructs of python, while making it specific to the domain.  I may have gained enough insight to write a paper on this.
+
+
 2013-11-24
 ----------
 need a default setting for idd (maybe the latest one)
