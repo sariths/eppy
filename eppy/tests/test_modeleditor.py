@@ -22,7 +22,7 @@ from eppy.pytest_helpers import almostequal
 import bunch
 import eppy.idfreader as idfreader
 import eppy.modeleditor as modeleditor
-import eppy.snippet as snippet
+import snippet
 from eppy.modeleditor import IDF
 
 from eppy.iddcurrent import iddcurrent
