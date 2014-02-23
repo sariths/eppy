@@ -76,7 +76,7 @@ Now let us open file fname1 without setting the **idd** file
     ---------------------------------------------------------------------------
     IDDNotSetError                            Traceback (most recent call last)
 
-    <ipython-input-3-44ad2b53d42c> in <module>()
+    <ipython-input-7-44ad2b53d42c> in <module>()
           2     idf1 = IDF(fname1)
           3 except Exception, e:
     ----> 4     raise e
@@ -115,7 +115,7 @@ this and should raise an exception.
     ---------------------------------------------------------------------------
     IDDAlreadySetError                        Traceback (most recent call last)
 
-    <ipython-input-5-52df819ac489> in <module>()
+    <ipython-input-9-52df819ac489> in <module>()
           2     IDF.setiddname("anotheridd.idd")
           3 except Exception, e:
     ----> 4     raise e
@@ -159,41 +159,13 @@ demonstrate two new functions:
     building = idf1.idfobjects['building'.upper()][0]
     print building
 
-
-.. parsed-literal::
-
-    
-    BUILDING,                 
-        Empire State Building,    !- Name
-        30.0,                     !- North Axis
-        City,                     !- Terrain
-        0.04,                     !- Loads Convergence Tolerance Value
-        0.4,                      !- Temperature Convergence Tolerance Value
-        FullExterior,             !- Solar Distribution
-        25,                       !- Maximum Number of Warmup Days
-        6;                        !- Minimum Number of Warmup Days
-    
-
-
 .. code:: python
 
     print building.getrange("Loads_Convergence_Tolerance_Value")
 
-
-.. parsed-literal::
-
-    {'maximum<': None, 'minimum': None, 'type': 'real', 'maximum': 0.5, 'minimum>': 0.0}
-
-
 .. code:: python
 
     print building.checkrange("Loads_Convergence_Tolerance_Value")
-
-
-.. parsed-literal::
-
-    0.04
-
 
 Let us set these values outside the range and see what happens
 
@@ -206,23 +178,6 @@ Let us set these values outside the range and see what happens
     except RangeError, e:
         raise e
         
-
-::
-
-
-    ---------------------------------------------------------------------------
-    RangeError                                Traceback (most recent call last)
-
-    <ipython-input-11-a824cb1ec673> in <module>()
-          4     print building.checkrange("Loads_Convergence_Tolerance_Value")
-          5 except RangeError, e:
-    ----> 6     raise e
-          7 
-
-
-    RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5
-
-
 So the Range Check works
 
 Looping through all the fields in an idf object
@@ -238,12 +193,6 @@ do this easily by the following line
 
     print building.fieldnames
 
-
-.. parsed-literal::
-
-    ['key', 'Name', 'North_Axis', 'Terrain', 'Loads_Convergence_Tolerance_Value', 'Temperature_Convergence_Tolerance_Value', 'Solar_Distribution', 'Maximum_Number_of_Warmup_Days', 'Minimum_Number_of_Warmup_Days']
-
-
 So let us use this
 
 .. code:: python
@@ -251,20 +200,6 @@ So let us use this
     for fieldname in building.fieldnames:
         print "%s = %s" % (fieldname, building[fieldname])
         
-
-.. parsed-literal::
-
-    key = BUILDING
-    Name = Empire State Building
-    North_Axis = 30.0
-    Terrain = City
-    Loads_Convergence_Tolerance_Value = 0.6
-    Temperature_Convergence_Tolerance_Value = 0.4
-    Solar_Distribution = FullExterior
-    Maximum_Number_of_Warmup_Days = 25
-    Minimum_Number_of_Warmup_Days = 6
-
-
 Now let us test if the values are in the legal range. We know that
 "Loads\_Convergence\_Tolerance\_Value" is out of range
 
@@ -278,20 +213,6 @@ Now let us test if the values are in the legal range. We know that
         except RangeError as e:
             print "%s = %s #-****OUT OF RANGE****" % (fieldname, building[fieldname],)
             
-
-.. parsed-literal::
-
-    key = BUILDING #-in range
-    Name = Empire State Building #-in range
-    North_Axis = 30.0 #-in range
-    Terrain = City #-in range
-    Loads_Convergence_Tolerance_Value = 0.6 #-****OUT OF RANGE****
-    Temperature_Convergence_Tolerance_Value = 0.4 #-in range
-    Solar_Distribution = FullExterior #-in range
-    Maximum_Number_of_Warmup_Days = 25 #-in range
-    Minimum_Number_of_Warmup_Days = 6 #-in range
-
-
 You see, we caught the out of range value
 
 Blank idf file
@@ -320,39 +241,6 @@ Here are the steps to do that
     
     idf_fromfilename.printidf()
 
-
-.. parsed-literal::
-
-    
-    VERSION,                  
-        7.3;                      !- Version Identifier
-    
-    SIMULATIONCONTROL,        
-        Yes,                      !- Do Zone Sizing Calculation
-        Yes,                      !- Do System Sizing Calculation
-        Yes,                      !- Do Plant Sizing Calculation
-        No,                       !- Run Simulation for Sizing Periods
-        Yes;                      !- Run Simulation for Weather File Run Periods
-    
-    BUILDING,                 
-        Empire State Building,    !- Name
-        30.0,                     !- North Axis
-        City,                     !- Terrain
-        0.04,                     !- Loads Convergence Tolerance Value
-        0.4,                      !- Temperature Convergence Tolerance Value
-        FullExterior,             !- Solar Distribution
-        25,                       !- Maximum Number of Warmup Days
-        6;                        !- Minimum Number of Warmup Days
-    
-    SITE:LOCATION,            
-        CHICAGO_IL_USA TMY2-94846,    !- Name
-        41.78,                    !- Latitude
-        -87.75,                   !- Longitude
-        -6.0,                     !- Time Zone
-        190.0;                    !- Elevation
-    
-
-
 .. code:: python
 
     # - now let us open a file from the disk differently
@@ -361,39 +249,6 @@ Here are the steps to do that
     idf_fromfilehandle = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_fromfilehandle.printidf()
-
-
-.. parsed-literal::
-
-    
-    VERSION,                  
-        7.3;                      !- Version Identifier
-    
-    SIMULATIONCONTROL,        
-        Yes,                      !- Do Zone Sizing Calculation
-        Yes,                      !- Do System Sizing Calculation
-        Yes,                      !- Do Plant Sizing Calculation
-        No,                       !- Run Simulation for Sizing Periods
-        Yes;                      !- Run Simulation for Weather File Run Periods
-    
-    BUILDING,                 
-        Empire State Building,    !- Name
-        30.0,                     !- North Axis
-        City,                     !- Terrain
-        0.04,                     !- Loads Convergence Tolerance Value
-        0.4,                      !- Temperature Convergence Tolerance Value
-        FullExterior,             !- Solar Distribution
-        25,                       !- Maximum Number of Warmup Days
-        6;                        !- Minimum Number of Warmup Days
-    
-    SITE:LOCATION,            
-        CHICAGO_IL_USA TMY2-94846,    !- Name
-        41.78,                    !- Latitude
-        -87.75,                   !- Longitude
-        -6.0,                     !- Time Zone
-        190.0;                    !- Elevation
-    
-
 
 .. code:: python
 
@@ -406,13 +261,6 @@ Here are the steps to do that
     idf_emptyfile = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_emptyfile.printidf()
-
-
-.. parsed-literal::
-
-    
-
-
 It did not print anything. Why should it. It was empty.
 
 What if we give it a string that was not blank
@@ -425,15 +273,6 @@ What if we give it a string that was not blank
     idf_notemptyfile = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_notemptyfile.printidf()
-
-
-.. parsed-literal::
-
-    
-    VERSION,                  
-        7.3;                      !- Version Identifier
-    
-
 
 Aha !
 
@@ -452,15 +291,6 @@ Let us confirm that the file was saved to disk
 
     txt = open("notemptyfile.idf", 'r').read()# read the file from the disk
     print txt
-
-
-.. parsed-literal::
-
-    
-    VERSION,                  
-        7.3;                      !- Version Identifier
-    
-
 
 Yup ! that file was saved. Let us delete it since we were just playing
 
@@ -499,46 +329,12 @@ IDF.newidfobject(). We want to make an object of type "MATERIAL"
 
     print newobject
 
-
-.. parsed-literal::
-
-    
-    MATERIAL,                 
-        ,                         !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    
-
-
 Let us give this a name, say "Shiny new material object"
 
 .. code:: python
 
     newobject.Name = "Shiny new material object"
     print newobject
-
-
-.. parsed-literal::
-
-    
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    
-
 
 .. code:: python
 
@@ -548,67 +344,11 @@ Let us give this a name, say "Shiny new material object"
     thirdmaterial.Name = "third material"
     print thirdmaterial
 
-
-.. parsed-literal::
-
-    
-    MATERIAL,                 
-        third material,           !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    
-
-
 Let us look at all the "MATERIAL" objects
 
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
-
-
-.. parsed-literal::
-
-    [
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    , 
-    MATERIAL,                 
-        Lousy material,           !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    , 
-    MATERIAL,                 
-        third material,           !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    ]
-
 
 As we can see there are three MATERIAL idfobjects. They are:
 
@@ -632,34 +372,6 @@ So let us remove the second material
 
     print idf.idfobjects['MATERIAL']
 
-
-.. parsed-literal::
-
-    [
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    , 
-    MATERIAL,                 
-        third material,           !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    ]
-
-
 You can see that the second material is gone ! Now let us remove the
 first material, but do it using a different function
 
@@ -671,35 +383,9 @@ first material, but do it using a different function
 
     idf.removeidfobject(firstmaterial)
 
-
-
-
-.. parsed-literal::
-
-    ['MATERIAL', 'third material', '', '', '', '', '', 0.9, 0.7, 0.7]
-
-
-
 .. code:: python
 
     print idf.idfobjects['MATERIAL']
-
-
-.. parsed-literal::
-
-    [
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    ]
-
 
 So we have two ways of deleting an idf object:
 
@@ -723,33 +409,6 @@ make a copy of this object and add it to our idf file
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
-
-.. parsed-literal::
-
-    [
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    , 
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    ]
-
 
 So now we have a copy of the material. You can use this method to copy
 idf objects from other idf files too.
@@ -777,66 +436,12 @@ Renaming an idf object
 
     print gypboard
 
-.. parsed-literal::
-
-    
-    MATERIAL,                 
-        G01a 19mm gypsum board,    !- Name
-        MediumSmooth,             !- Roughness
-        0.019,                    !- Thickness
-        0.16,                     !- Conductivity
-        800,                      !- Density
-        1090,                     !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    
-
-
 newidfobject() also fills in the default values like "Thermal
 Absorptance", "Solar Absorptance", etc.
 
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
-
-.. parsed-literal::
-
-    [
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    , 
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    , 
-    MATERIAL,                 
-        G01a 19mm gypsum board,    !- Name
-        MediumSmooth,             !- Roughness
-        0.019,                    !- Thickness
-        0.16,                     !- Conductivity
-        800,                      !- Density
-        1090,                     !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    ]
-
 
 Renaming an idf object
 ----------------------
@@ -867,109 +472,22 @@ Let us try this with an example:
                      Layer_3="G01a 19mm gypsum board")
     print interiorwall
 
-
-.. parsed-literal::
-
-    
-    CONSTRUCTION,             
-        Interior Wall,            !- Name
-        G01a 19mm gypsum board,    !- Outside Layer
-        Shiny new material object,    !- Layer 2
-        G01a 19mm gypsum board;    !- Layer 3
-    
-
-
 to rename gypboard and have that name change in all the places we call
 modeleditor.rename(idf, key, oldname, newname)
 
 .. code:: python
 
     modeleditor.rename(idf, "MATERIAL", "G01a 19mm gypsum board", "peanut butter")
-
-
-
-.. parsed-literal::
-
-    
-    MATERIAL,                 
-        peanut butter,            !- Name
-        MediumSmooth,             !- Roughness
-        0.019,                    !- Thickness
-        0.16,                     !- Conductivity
-        800,                      !- Density
-        1090,                     !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-
-
-
-
 .. code:: python
 
     print interiorwall
 
-.. parsed-literal::
-
-    
-    CONSTRUCTION,             
-        Interior Wall,            !- Name
-        peanut butter,            !- Outside Layer
-        Shiny new material object,    !- Layer 2
-        peanut butter;            !- Layer 3
-    
-
-
 Now we have "peanut butter" everywhere. At least where we need it. Let
-us look at the entir idf file, just to be sure
+us look at the entire idf file, just to be sure
 
 .. code:: python
 
     idf.printidf()
-
-.. parsed-literal::
-
-    
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    
-    MATERIAL,                 
-        Shiny new material object,    !- Name
-        ,                         !- Roughness
-        ,                         !- Thickness
-        ,                         !- Conductivity
-        ,                         !- Density
-        ,                         !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    
-    MATERIAL,                 
-        peanut butter,            !- Name
-        MediumSmooth,             !- Roughness
-        0.019,                    !- Thickness
-        0.16,                     !- Conductivity
-        800,                      !- Density
-        1090,                     !- Specific Heat
-        0.9,                      !- Thermal Absorptance
-        0.7,                      !- Solar Absorptance
-        0.7;                      !- Visible Absorptance
-    
-    CONSTRUCTION,             
-        Interior Wall,            !- Name
-        peanut butter,            !- Outside Layer
-        Shiny new material object,    !- Layer 2
-        peanut butter;            !- Layer 3
-    
-
 
 Zone area and volume
 --------------------
@@ -997,13 +515,6 @@ Let us review this once more:
     print "tilt = %s" % (surface.tilt, )
     print "azimuth = %s" % (surface.azimuth, )
 
-.. parsed-literal::
-
-    area = 30.0
-    tilt = 180.0
-    azimuth = 0.0
-
-
 Can we do the same for zones ?
 
 Not yet .. not yet. Not in this version on eppy
@@ -1018,12 +529,6 @@ But we can still get the area and volume of the zone
     volume = modeleditor.zonevolume(idf, zone.Name)
     print "zone area = %s" % (area, )
     print "zone volume = %s" % (volume, )
-
-.. parsed-literal::
-
-    zone area = 30.0
-    zone volume = 90.0
-
 
 Not as slick, but still pretty easy
 

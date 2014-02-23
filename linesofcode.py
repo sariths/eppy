@@ -12,11 +12,9 @@ fpaths3 = ([os.path.join(d, f) for f in fs] for d, fs in k3 if d.find('tests') =
 ch = chain.from_iterable(fpaths3)
 fhandles = ((f, open(f, 'r')) for f in ch)
 lines = ((sum(1 for line in fhandle), fname) for fname, fhandle in fhandles)
-lines = list(lines)
-lines.sort()
 
 s = 0
-for i, n in lines:
+for i, n in sorted(lines):
     print i, n
     s += i
 print s

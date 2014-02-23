@@ -180,6 +180,7 @@ explain later.
 .. code:: python
 
     building = idf1.idfobjects['BUILDING'][0]
+
 Now we can do this:
 
 .. code:: python
@@ -271,6 +272,7 @@ field name ("Empire State Building") into this command gave us this:
     # import eppy.ex_inits
     # reload(eppy.ex_inits)
     import eppy.ex_inits
+
 But how did we know that "Name" is one of the fields in the object
 "building"?
 
@@ -409,6 +411,7 @@ a look at how lists work in python.
 
     fruits = ["apple", "orange", "bannana"] 
     # fruits is a list with three items in it.
+
 To get the first item in fruits we say:
 
 .. code:: python
@@ -501,11 +504,13 @@ This is easy:
 .. code:: python
 
     idf1.save() 
+
 If you'd like to do a "Save as..." use this:
 
 .. code:: python
 
     idf1.saveas('something.idf')
+
 Working with E+ objects
 -----------------------
 
@@ -913,6 +918,7 @@ Let us get those "MATERIAL" objects again
 .. code:: python
 
     materials = idf1.idfobjects["MATERIAL"]
+
 With our newfound knowledge of lists, we can do a lot of things.
 
 Let us get the last material:
@@ -1265,6 +1271,7 @@ Now let's make some fruit loops.
 .. code:: python
 
     fruits = ["apple", "orange", "bannana"] 
+
 Given the syntax I gave you before I started rambling about indentation,
 we can easily print every item in the fruits list by using a 'for' loop.
 
@@ -1319,6 +1326,7 @@ Now we'll try to confuse you:
 
     # here's a shorter way of writing it
     rottenfruits = ["rotten " + fruit for fruit in fruits]
+
 Did you follow all that??
 
 Just in case you didn't, let's review that last one::
@@ -1401,6 +1409,7 @@ Let's say we want to pick only the fruits that start with the letter
 
     # here's a shorter way to write it
     p_fruits = [fruit for fruit in fruits if fruit.startswith("p")]
+
 ::
 
     [fruit for fruit in fruits if fruit.startswith("p")]
@@ -1984,9 +1993,9 @@ construnctions
 
 .. parsed-literal::
 
-    WALL-1PB 0.0 WALL-1
-    BACK-1 0.0 WALL-1
-    WALL-1SB 0.0 WALL-1
+    WALL-1PB 0.0 NORTHERN-WALL
+    BACK-1 0.0 NORTHERN-WALL
+    WALL-1SB 0.0 NORTHERN-WALL
 
 
 .. code:: python

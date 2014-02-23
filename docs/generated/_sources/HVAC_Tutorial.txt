@@ -81,6 +81,7 @@ In eppy you could embody this is a list
 
     supplyside = ['start_brandh',   [  'branch1',   'branch2',   'branch3'],   'end_branch']
     demandside = ['d_start_brandh', ['d_branch1', 'd_branch2', 'd_branch3'], 'd_end_branch']
+
 Eppy will build the build the shape/topology of the loop using the two
 lists above. Each branch will have a placeholder component, like a pipe
 or a duct::
@@ -218,8 +219,10 @@ the new branch would look like "chiller-> pipe1->pipe2"
     # this replaces the components in "branch" with the components in "listofcomponents"
     
     idf.saveas("hhh_new.idf")
-| We have saved this as file "hhh\_new.idf".
-| Let us draw the diagram of this file. (run this from eppy/eppy folder)
+
+We have saved this as file "hhh\_new.idf".
+
+Let us draw the diagram of this file. (run this from eppy/eppy folder)
 
 python ex_loopdiagram.py hhh_new.idf
 
@@ -256,6 +259,7 @@ Let us try to traverse the loop above.
     edges = ex_loopdiagram.getedges(fname, iddfile)
     # edges are the lines that draw the nodes in the loop. 
     # The term comes from graph theory in mathematics
+
 The above code gets us the edges of the loop diagram. Once we have the
 edges, we can traverse through the diagram. Let us start with the
 "Central\_Chiller" and work our way down.
