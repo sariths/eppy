@@ -24,6 +24,7 @@ import copy
 from EPlusInterfaceFunctions import readidf
 from bunch import *
 import bunchhelpers
+import function_helpers as fh
 
 class BadEPFieldError(Exception):
     pass
@@ -244,13 +245,31 @@ class CheckRange(EpBunchFunctionClass):
         return fieldvalue
 
 class EpBunch_5(EpBunch_4):
-    """implements getrange, checkrange, fieldnames"""
+    """implements getrange, checkrange, fieldnames and surface:detailed functions"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_5, self).__init__(obj, objls, objidd, *args, **kwargs)
         self['__functions']['fieldnames'] = fieldnames
         self['__functions']['fieldvalues'] = fieldvalues
         self['__functions']['getrange'] = GetRange(self)
         self['__functions']['checkrange'] = CheckRange(self)
+        snames = ["BuildingSurface:Detailed",
+        "Wall:Detailed",
+        "RoofCeiling:Detailed",
+        "Floor:Detailed",
+        "FenestrationSurface:Detailed",
+        "Shading:Site:Detailed",
+        "Shading:Building:Detailed",
+        "Shading:Zone:Detailed",]
+        snames = [sname.upper() for sname in snames]
+        if obj[0].upper() in snames:
+            self['__functions'].update({'area':fh.area,
+                'height':fh.height, # not working correctly
+                'width':fh.width, # not working correctly
+                'azimuth':fh.azimuth,
+                'tilt':fh.tilt,
+                'coords':fh.getcoords, # needed for debugging
+                } )
+            
         
             
 EpBunch = EpBunch_5
