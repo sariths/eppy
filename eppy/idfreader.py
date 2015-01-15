@@ -56,11 +56,9 @@ def makebunches(data, commdct):
     dt, dtls = data.dt, data.dtls
     for obj_i, key in enumerate(dtls):
         key = key.upper()
-        bunchdt[key] = []
+        bunchdt[key] = [] # use IdfObjects here. Initialize with dt[key]
         objs = dt[key]
         for obj in objs:
-            # if obj[0] == "Construction:WindowDataFile":
-            #     print obj
             bobj = makeabunch(commdct, obj, obj_i)
             bunchdt[key].append(bobj)
     return bunchdt
