@@ -6,13 +6,17 @@ idf1.idfobjects['BUILDING'] is a list and is not connected to idf1.model.dt['BUI
 list has to be subclassed to solve this problem
 """
 
-# Alex Marelli describes how to use collections.MutableSequence in
+# Alex Martelli describes how to use collections.MutableSequence in
 # <http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list>
 # Here I recreate and test his example
 
 import collections
 
 class TypedList(collections.MutableSequence):
+    """This is Alex Martelli example from 
+    http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list
+    
+    Not used by eppy"""
     def __init__(self, oktypes, *args):
         self.oktypes = oktypes
         self.list = list()
@@ -36,6 +40,7 @@ class TypedList(collections.MutableSequence):
         return str(self.list)
         
 class TwoLists(collections.MutableSequence):
+    """Used to learn. Not used by eppy"""
     def __init__(self, *args):
         super(TwoLists, self).__init__()
         self.list1 = list()
@@ -80,6 +85,8 @@ class IdfObjects(collections.MutableSequence):
     def __str__(self):
         # st = "list1 = %s, list2 = %s" % (self.list1, self.list2)
         return str(self.list1)
+    def __repr__(self):
+        return str(self.list1)
         
 class FakeEpBunch(object):
     """use this to unit test IdfObjects"""
@@ -92,27 +99,8 @@ class FakeEpBunch(object):
     def __str__(self):
         st = "Name = %s, obj = %s" % (self.Name, self.obj)
         return st
-                
-fb = FakeEpBunch('jumpy')
-print fb
-
         
-# x = TypedList((str, unicode), 'foo', 'bar')
-# x.append('zap')
-# print x
-# # x.append(23)
-# x.extend(['a', 3, 'b', 'c'])
-# print x
-
-# tl = TwoLists()
-# tl.append(5)
-# print tl
-# tl.extend([2,3,4])
-# print tl
-# tl.pop()
-# print tl
-# tl.pop(1)
-# print tl
+        
 
 # import sys
 # # pathnameto_eppy = 'c:/eppy'
