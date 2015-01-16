@@ -56,7 +56,12 @@ def makebunches(data, commdct):
     dt, dtls = data.dt, data.dtls
     for obj_i, key in enumerate(dtls):
         key = key.upper()
-        bunchdt[key] = [] # use IdfObjects here. Initialize with dt[key]
+        bunchdt[key] = []   # use IdfObjects here. Initialize with dt[key]
+                            # IdfObjects will have two parallel lists (list1 and list2)
+                            # append will add to both lists
+                            # pop or delete will remove from both lists
+                            # list2 is not directly accesed
+                            # only thru IdfObjects
         objs = dt[key]
         for obj in objs:
             bobj = makeabunch(commdct, obj, obj_i)
