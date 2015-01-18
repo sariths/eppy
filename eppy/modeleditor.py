@@ -607,9 +607,10 @@ class IDF2(IDF1):
     #         self.setiddname(iddfhandle)
     #     self.idfname = idfname
     #     self.read()
-
+    
 class IDF3(IDF2):
     """subclass of IDF2. Uses functions of IDF1 and IDF2
+    The functions here are mostly used in unit testing
     """
     def __init__(self, idfname=None):
         super(IDF3, self).__init__(idfname)
@@ -647,7 +648,16 @@ class IDF3(IDF2):
         self.read()
         
 
-IDF = IDF3
+class IDF4(IDF3):
+    """subclass of IDF3. Uses all the functions of IDF1, IDF2, IDF3"""
+    def __init__(self, idfname=None):
+        super(IDF4, self).__init__(idfname)
+    def new(self, fname=None):
+        """create a blank new idf file. Filename is optional"""
+        self.initnew()
+        
+
+IDF = IDF4
         
                                     
 class something(IDF0):

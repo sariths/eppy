@@ -87,6 +87,8 @@ class IdfObjects(collections.MutableSequence):
         return str(self.list1)
     def __repr__(self):
         return str(self.list1)
+    def __eq__(self, other):
+        return self.list2 == other.list2
         
 class FakeEpBunch(object):
     """use this to unit test IdfObjects"""

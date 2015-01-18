@@ -24,6 +24,7 @@ import eppy.idfreader as idfreader
 import eppy.modeleditor as modeleditor
 import eppy.snippet as snippet
 from eppy.modeleditor import IDF
+from eppy.idfobjects import IdfObjects
 
 from eppy.iddcurrent import iddcurrent
 iddsnippet = iddcurrent.iddtxt
@@ -412,3 +413,18 @@ def test_zonearea_zonevolume():
     result = modeleditor.zonevolume(idf, '473222')
     assert almostequal(result, 10.718762)
         
+def test_new():
+    """py.test for IDF.new()"""
+    idf = IDF()
+    idf.new()
+    assert idf.idfobjects['building'.upper()] == IdfObjects()
+    assert idf.idfobjects['building'.upper()].list1 == []
+    assert idf.idfobjects['building'.upper()].list2 == []
+
+def test_newidfobject():
+    """py.test for newidfobject"""
+    # make a blank idf
+    # make a function for this and then continue.
+    pass
+    
+    
