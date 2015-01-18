@@ -64,9 +64,9 @@ class TwoLists(collections.MutableSequence):
         st = "list1 = %s, list2 = %s" % (self.list1, self.list2)
         return st
         
-class IdfObjects(collections.MutableSequence):
+class Idf_MSequence(collections.MutableSequence):
     def __init__(self, *args):
-        super(IdfObjects, self).__init__()
+        super(Idf_MSequence, self).__init__()
         self.list1 = list()
         self.list2 = list()
     def __getitem__(self, i): 
@@ -91,7 +91,7 @@ class IdfObjects(collections.MutableSequence):
         return self.list2 == other.list2
         
 class FakeEpBunch(object):
-    """use this to unit test IdfObjects"""
+    """use this to unit test Idf_MSequence"""
     def __init__(self, arg):
         super(FakeEpBunch, self).__init__()
         self.Name = arg

@@ -23,7 +23,7 @@ from bunch_subclass import EpBunch
 from bunch_subclass import fieldnames, fieldvalues, GetRange, CheckRange
 import iddgaps
 import function_helpers as fh
-from idfobjects import IdfObjects
+from idf_msequence import Idf_MSequence
 
 def iddversiontuple(afile):
     """given the idd file or filehandle, return the version handle"""
@@ -57,13 +57,13 @@ def makebunches(data, commdct):
     dt, dtls = data.dt, data.dtls
     for obj_i, key in enumerate(dtls):
         key = key.upper()
-        bunchdt[key] = IdfObjects()   
-                # use IdfObjects here. Initialize with dt[key]
-                # IdfObjects will have two parallel lists (list1 and list2)
+        bunchdt[key] = Idf_MSequence()   
+                # use Idf_MSequence here. Initialize with dt[key]
+                # Idf_MSequence will have two parallel lists (list1 and list2)
                 # append will add to both lists
                 # pop or delete will remove from both lists
                 # list2 is not directly accesed
-                # only thru IdfObjects
+                # only thru Idf_MSequence
         objs = dt[key]
         for obj in objs:
             bobj = makeabunch(commdct, obj, obj_i)

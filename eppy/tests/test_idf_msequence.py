@@ -2,7 +2,7 @@
 
 import pytest
 import copy
-import eppy.idfobjects as idfobjects
+import eppy.idf_msequence as idfobjects
 from eppy import modeleditor
 from eppy.modeleditor import IDF
 from eppy import bunchhelpers
@@ -49,9 +49,9 @@ def test_FakeEpBunch():
     assert fb.Name == 'jumpy'
     assert fb.obj == ['jumpy', 'r_jumpy']
     
-def test_IdfObjects_FakeEpBunch():
-    """py.test for IdfObjects with FakeEpBunch"""
-    idfobjs = idfobjects.IdfObjects()    
+def test_Idf_MSequence_FakeEpBunch():
+    """py.test for Idf_MSequence with FakeEpBunch"""
+    idfobjs = idfobjects.Idf_MSequence()    
     fobj = idfobjects.FakeEpBunch('jumpy')
     idfobjs.append(fobj)
     assert list(idfobjs) == [fobj]
@@ -72,8 +72,8 @@ def test_IdfObjects_FakeEpBunch():
     assert list(idfobjs) == []
     assert len(idfobjs) == 0
 
-def test_IdfObjects():
-    """py.test for IdfObjects"""
+def test_Idf_MSequence():
+    """py.test for Idf_MSequence"""
     def makeabunch(commdct, obj, obj_i):
         """make a bunch from the object"""
         objidd = commdct[obj_i]
@@ -92,7 +92,7 @@ def test_IdfObjects():
     idf = IDF(fhandle) # initialize the IDF object with the file handle
     commdct = idf.idd_info
     obj_i = idf.model.dtls.index("BUILDING")
-    idfobjs = idfobjects.IdfObjects()
+    idfobjs = idfobjects.Idf_MSequence()
 
     bobj = makeabunch(commdct, abldg, obj_i)
     idfobjs.append(bobj)
