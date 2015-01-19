@@ -523,8 +523,13 @@ class IDF1(IDF0):
         theobjects = self.idfobjects[key.upper()]
         for i, theobject in enumerate(theobjects):
             if theobject is idfobject:
-                theobjects.pop(i)
+                print 'here'
+                popped = theobjects.pop(i)
+                print popped
                 # remove it from model too
+                print "in IDF = self.idfobjects = %s " % (self.idfobjects[key.upper()], )
+                print "in IDF = self.idfobjects.list2 = %s " % (self.idfobjects[key.upper()].list2, )
+                print "in IDF - self.model.dt - %s" % (self.model.dt[key.upper()], )
                 return self.model.dt[key.upper()].pop(i)
     def copyidfobject(self, idfobject):
         """add idfobject to this model
@@ -654,6 +659,7 @@ class IDF4(IDF3):
         super(IDF4, self).__init__(idfname)
     def new(self, fname=None):
         """create a blank new idf file. Filename is optional"""
+        # modify this so that setidd has to be called before
         self.initnew()
         
 

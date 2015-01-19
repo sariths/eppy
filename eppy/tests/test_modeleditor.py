@@ -24,7 +24,7 @@ import eppy.idfreader as idfreader
 import eppy.modeleditor as modeleditor
 import eppy.snippet as snippet
 from eppy.modeleditor import IDF
-from eppy.idfobjects import IdfObjects
+from eppy.idf_msequence import Idf_MSequence
 
 from eppy.iddcurrent import iddcurrent
 iddsnippet = iddcurrent.iddtxt
@@ -417,7 +417,7 @@ def test_new():
     """py.test for IDF.new()"""
     idf = IDF()
     idf.new()
-    assert idf.idfobjects['building'.upper()] == IdfObjects()
+    assert idf.idfobjects['building'.upper()] == Idf_MSequence()
     assert idf.idfobjects['building'.upper()].list1 == []
     assert idf.idfobjects['building'.upper()].list2 == []
 
@@ -425,6 +425,24 @@ def test_newidfobject():
     """py.test for newidfobject"""
     # make a blank idf
     # make a function for this and then continue.
-    pass
-    
+    idf = IDF()
+    idf.new()
+    objtype = 'material:airgap'.upper()
+    obj = idf.newidfobject(objtype, Name='Argon')
+    obj = idf.newidfobject(objtype, Name='Krypton')
+    obj = idf.newidfobject(objtype, Name='Xenon')
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
+                                    ['MATERIAL:AIRGAP', 'Krypton'],
+                                    ['MATERIAL:AIRGAP', 'Xenon'],
+                                ]
+    # remove an object
+    print 'original list'
+    print idf.idfobjects[objtype].list2
+    krypton = idf.idfobjects[objtype][1]
+    obj = idf.removeidfobject(krypton)
+    print obj
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
+                                    ['MATERIAL:AIRGAP', 'Xenon'],
+                                ]
+    assert 1 == 0
     
