@@ -77,6 +77,7 @@ class Idf_MSequence(collections.MutableSequence):
     def __delitem__(self, i):
         print 'removing list1 %s' % (self.list1[i], )
         del self.list1[i]
+        print 'list2 ids = %s' % ([id(item) for item in self.list2], )
         print 'removing list2 %s' % (self.list2[i], )
         del self.list2[i]
         print "list1 %s" % (self.list1, )

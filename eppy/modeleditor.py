@@ -524,6 +524,7 @@ class IDF1(IDF0):
         for i, theobject in enumerate(theobjects):
             if theobject is idfobject:
                 print 'here'
+                print "in IDF list2 ids = %s" % ([id(item) for item in theobjects.list2])
                 popped = theobjects.pop(i)
                 print popped
                 # remove it from model too
