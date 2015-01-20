@@ -436,13 +436,23 @@ def test_newidfobject():
                                     ['MATERIAL:AIRGAP', 'Xenon'],
                                 ]
     # remove an object
-    print 'original list'
-    print idf.idfobjects[objtype].list2
-    krypton = idf.idfobjects[objtype][1]
-    obj = idf.removeidfobject(krypton)
-    print obj
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
-                                    ['MATERIAL:AIRGAP', 'Xenon'],
-                                ]
+    airgaps = idf.idfobjects[objtype]
+    print "airgaps.list2", airgaps.list2
+    print "idf.model.dt[objtype]", idf.model.dt[objtype]
+    print 'ids'
+    print "airgaps.list2", [id(item) for item in airgaps.list2]
+    print "idf.model.dt[objtype]", [id(item) for item in idf.model.dt[objtype]]
+    print "airgaps.list2", id(airgaps.list2)
+    print "idf.model.dt[objtype]", id(idf.model.dt[objtype])
+    
+    # airgaps.pop
+    # print 'original list'
+    # print idf.idfobjects[objtype].list2
+    # krypton = idf.idfobjects[objtype][1]
+    # obj = idf.removeidfobject(krypton)
+    # print obj
+    # assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
+    #                                 ['MATERIAL:AIRGAP', 'Xenon'],
+    #                             ]
     assert 1 == 0
     

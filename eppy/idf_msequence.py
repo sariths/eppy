@@ -68,20 +68,21 @@ class Idf_MSequence(collections.MutableSequence):
     def __init__(self, *args):
         super(Idf_MSequence, self).__init__()
         self.list1 = list()
-        self.list2 = list()
+        self.list2 = list() # this list has a different id from 
+                            # idf.model.dt[objtype]. This is a bug
     def __getitem__(self, i): 
         return self.list1[i]
     def __setitem__(self, i, v):
         self.list1[i] = v
         self.list2[i] = v.obj
     def __delitem__(self, i):
-        print 'removing list1 %s' % (self.list1[i], )
+        # print 'removing list1 %s' % (self.list1[i], )
         del self.list1[i]
-        print 'list2 ids = %s' % ([id(item) for item in self.list2], )
-        print 'removing list2 %s' % (self.list2[i], )
+        # print 'list2 ids = %s' % ([id(item) for item in self.list2], )
+        # print 'removing list2 %s' % (self.list2[i], )
         del self.list2[i]
-        print "list1 %s" % (self.list1, )
-        print "list2 %s" % (self.list2, )
+        # print "list1 %s" % (self.list1, )
+        # print "list2 %s" % (self.list2, )
     def __len__(self): 
         return len(self.list1)
     def insert(self, i, v):
