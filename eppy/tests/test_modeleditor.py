@@ -431,6 +431,7 @@ def test_newidfobject():
     obj = idf.newidfobject(objtype, Name='Argon')
     obj = idf.newidfobject(objtype, Name='Krypton')
     obj = idf.newidfobject(objtype, Name='Xenon')
+    print idf.model.dt[objtype]
     assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
                                     ['MATERIAL:AIRGAP', 'Krypton'],
                                     ['MATERIAL:AIRGAP', 'Xenon'],

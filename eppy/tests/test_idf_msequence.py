@@ -73,7 +73,7 @@ def test_Idf_MSequence_FakeEpBunch():
     assert len(idfobjs) == 0
 
 def test_Idf_MSequence():
-    """py.test for Idf_MSequence"""
+    """py.test for Idf_MSequence suing an actual idf file"""
     def makeabunch(commdct, obj, obj_i):
         """make a bunch from the object"""
         objidd = commdct[obj_i]
