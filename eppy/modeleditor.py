@@ -88,12 +88,27 @@ def newrawobject(data, commdct, key):
     obj = poptrailing(obj) # remove the blank items in a repeating field. 
     return obj
     
+def addthisbunch_old(bunchdt, data, commdct, thisbunch):
+    """add a bunch to model.
+    abunch usually comes from another idf file
+    or it can be used to copy within the idf file"""
+    key = thisbunch.key.upper()
+    obj = copy.copy(thisbunch.obj)
+    data.dt[key].append(obj)
+    abunch =  obj2bunch(data, commdct, obj)
+    bunchdt[key].append(abunch)
+    return abunch
+    
 def addthisbunch(bunchdt, data, commdct, thisbunch):
     """add a bunch to model.
     abunch usually comes from another idf file
     or it can be used to copy within the idf file"""
     key = thisbunch.key.upper()
     obj = copy.copy(thisbunch.obj)
+    abunch = obj2bunch(data, commdct, obj)
+    bunchdt[key].append(abunch)
+    return abunch
+    
     data.dt[key].append(obj)
     abunch =  obj2bunch(data, commdct, obj)
     bunchdt[key].append(abunch)
@@ -487,7 +502,6 @@ class IDF1(IDF0):
     def __init__(self, idfname=None):
         super(IDF1, self).__init__(idfname)
     def newidfobject(self, key, aname='', **kwargs):
-    # def newidfobject(self, key, *args, **kwargs):
         """add a new idfobject to the model
         
         for example :: 
@@ -501,38 +515,31 @@ class IDF1(IDF0):
         If you don't specify a value for a field, the default value will be set
         
         aname is not used. It is left there for backward compatibility"""
-        # TODO unit test
-        # return addobject1(self.idfobjects,
-        #                     self.model,
-        #                     self.idd_info,
-        #                     key, **kwargs)  
-        return addobject(self.idfobjects,
-                            self.model,
-                            self.idd_info,
-                            key, aname=aname, **kwargs)
+        obj = newrawobject(self.model, self.idd_info, key)
+        abunch = obj2bunch(self.model, self.idd_info, obj)
+        if aname:
+            namebunch(abunch, aname)
+        self.idfobjects[key].append(abunch)
+        for k, v in kwargs.items():
+            abunch[k] = v
+        return abunch
     def popidfobject(self, key, index):
         """pop this object"""
-        popobject = self.idfobjects[key][index]
-        self.removeidfobject(popobject)
+        return self.idfobjects[key].pop(index)
     def removeidfobject(self, idfobject):
         """remove this idfobject"""
-        # the object has to be removed from idfobjects and
-        # form self.model.dt
-        # since idfobjects is just a wrapper for model.dt
-        key = idfobject.key
-        theobjects = self.idfobjects[key.upper()]
-        for i, theobject in enumerate(theobjects):
-            if theobject is idfobject:
-                print 'here'
-                print "in IDF list2 ids = %s" % ([id(item) for item in theobjects.list2])
-                popped = theobjects.pop(i)
-                print popped
-                # remove it from model too
-                print "in IDF = self.idfobjects = %s " % (self.idfobjects[key.upper()], )
-                print "in IDF = self.idfobjects.list2 = %s " % (self.idfobjects[key.upper()].list2, )
-                print "in IDF - self.model.dt - %s" % (self.model.dt[key.upper()], )
-                return self.model.dt[key.upper()].pop(i)
+        key = idfobject.key.upper()
+        self.idfobjects[key].remove(idfobject)
     def copyidfobject(self, idfobject):
+        """add idfobject to this model
+        
+        idfobject usually comes from another idf file
+        or it can be used to copy within this idf file"""
+        addthisbunch(self.idfobjects, 
+                            self.model,
+                            self.idd_info,
+                            idfobject)
+    def copyidfobject_old(self, idfobject):
         """add idfobject to this model
         
         idfobject usually comes from another idf file

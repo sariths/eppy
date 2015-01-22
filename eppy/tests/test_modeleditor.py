@@ -277,12 +277,12 @@ def test_removeextensibles():
         assert result.obj == rawobject
         
         
-def test_addthisbunch():
-    """py.test for addthisbunch"""
+def test_addthisbunch_old():
+    """py.test for addthisbunch_old"""
     obj1 = ['ZONE', 'weird zone', '0', '0', '0', '0', '1', '1', 'autocalculate', 
         'autocalculate', 'autocalculate', '', '', 'Yes']
     thisbunch = modeleditor.obj2bunch(data, commdct, obj1)
-    modeleditor.addthisbunch(bunchdt, data, commdct, thisbunch)
+    modeleditor.addthisbunch_old(bunchdt, data, commdct, thisbunch)
     assert data.dt["ZONE"][-1] == obj1
     
 def test_getrefnames():
@@ -431,29 +431,23 @@ def test_newidfobject():
     obj = idf.newidfobject(objtype, Name='Argon')
     obj = idf.newidfobject(objtype, Name='Krypton')
     obj = idf.newidfobject(objtype, Name='Xenon')
-    print idf.model.dt[objtype]
     assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
                                     ['MATERIAL:AIRGAP', 'Krypton'],
                                     ['MATERIAL:AIRGAP', 'Xenon'],
                                 ]
     # remove an object
-    airgaps = idf.idfobjects[objtype]
-    print "airgaps.list2", airgaps.list2
-    print "idf.model.dt[objtype]", idf.model.dt[objtype]
-    print 'ids'
-    print "airgaps.list2", [id(item) for item in airgaps.list2]
-    print "idf.model.dt[objtype]", [id(item) for item in idf.model.dt[objtype]]
-    print "airgaps.list2", id(airgaps.list2)
-    print "idf.model.dt[objtype]", id(idf.model.dt[objtype])
-    
-    # airgaps.pop
-    # print 'original list'
-    # print idf.idfobjects[objtype].list2
-    # krypton = idf.idfobjects[objtype][1]
-    # obj = idf.removeidfobject(krypton)
-    # print obj
-    # assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
-    #                                 ['MATERIAL:AIRGAP', 'Xenon'],
-    #                             ]
-    assert 1 == 0
-    
+    idf.popidfobject(objtype, 1)    
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
+                                    ['MATERIAL:AIRGAP', 'Xenon'],
+                                ]
+    lastobject = idf.idfobjects[objtype][-1]
+    idf.removeidfobject(lastobject)
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
+                                ]
+    # copyidfobject
+    onlyobject = idf.idfobjects[objtype][0]
+    idf.copyidfobject(onlyobject)
+    print idf.model.dt[objtype]
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
+                                    ['MATERIAL:AIRGAP', 'Argon'], 
+                                ]
