@@ -23,7 +23,7 @@ from bunch_subclass import EpBunch
 from bunch_subclass import fieldnames, fieldvalues, GetRange, CheckRange
 import iddgaps
 import function_helpers as fh
-from idf_msequence import Idf_MSequence
+from idf_msequence import Idf_MSequence_old
 from idf_msequence import Idf_MSequence_alter
 
 def iddversiontuple(afile):
@@ -58,7 +58,7 @@ def makebunches(data, commdct):
     dt, dtls = data.dt, data.dtls
     for obj_i, key in enumerate(dtls):
         key = key.upper()
-        bunchdt[key] = Idf_MSequence()   
+        bunchdt[key] = Idf_MSequence_old()   
                 # use Idf_MSequence here. Initialize with dt[key]
                 # Idf_MSequence will have two parallel lists (list1 and list2)
                 # append will add to both lists

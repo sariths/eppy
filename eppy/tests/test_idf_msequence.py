@@ -51,7 +51,7 @@ def test_FakeEpBunch():
     
 def test_Idf_MSequence_FakeEpBunch():
     """py.test for Idf_MSequence with FakeEpBunch"""
-    idfobjs = idfobjects.Idf_MSequence()    
+    idfobjs = idfobjects.Idf_MSequence_old()    
     fobj = idfobjects.FakeEpBunch('jumpy')
     idfobjs.append(fobj)
     assert list(idfobjs) == [fobj]
@@ -72,8 +72,8 @@ def test_Idf_MSequence_FakeEpBunch():
     assert list(idfobjs) == []
     assert len(idfobjs) == 0
 
-def test_Idf_MSequence():
-    """py.test for Idf_MSequence suing an actual idf file"""
+def test_Idf_MSequence_old():
+    """py.test for Idf_MSequence_old suing an actual idf file"""
     def makeabunch(commdct, obj, obj_i):
         """make a bunch from the object"""
         objidd = commdct[obj_i]
@@ -92,7 +92,7 @@ def test_Idf_MSequence():
     idf = IDF(fhandle) # initialize the IDF object with the file handle
     commdct = idf.idd_info
     obj_i = idf.model.dtls.index("BUILDING")
-    idfobjs = idfobjects.Idf_MSequence()
+    idfobjs = idfobjects.Idf_MSequence_old()
 
     bobj = makeabunch(commdct, abldg, obj_i)
     idfobjs.append(bobj)
