@@ -113,3 +113,45 @@ def test_Idf_MSequence_old():
     
     idfobjs[0].Name = 'Karamba'
     assert idfobjs.list2[0][1] == 'Karamba'
+
+def test_Idf_MSequence_withidf():
+    """py.test for Idf_MSequence suing an actual idf file"""
+    def makeabunch(commdct, obj, obj_i):
+        """make a bunch from the object"""
+        objidd = commdct[obj_i]
+        objfields = [comm.get('field') for comm in commdct[obj_i]]
+        objfields[0] = ['key']
+        objfields = [field[0] for field in objfields]
+        obj_fields = [bunchhelpers.makefieldname(field) 
+            for field in objfields]
+        bobj = EpBunch(obj, obj_fields, objidd)
+        return bobj
+    abldg = ['BUILDING', 'Taj Mahal', 0.0, 'Suburbs', 0.04, 0.4, 
+                            'FullExterior', 25, 6]
+    idftxt = "" # empty string
+    from StringIO import StringIO
+    fhandle = StringIO(idftxt) # we can make a file handle of a string
+    idf = IDF(fhandle) # initialize the IDF object with the file handle
+    commdct = idf.idd_info
+    obj_i = idf.model.dtls.index("BUILDING")
+    idfobjs = idf.idfobjects["BUILDING"]
+    assert idfobjs.list2 == []
+    bobj = makeabunch(commdct, abldg, obj_i)
+    idfobjs.append(bobj)
+    assert idfobjs.list2 == [abldg]
+    assert idfobjs[0].Name == 'Taj Mahal'
+
+    abldg1 = copy.copy(abldg)
+    abldg1[1] = 'Qoit tower'
+    bobj1 = makeabunch(commdct, abldg1, obj_i)
+    idfobjs.append(bobj1)
+    assert idfobjs.list2 == [abldg, abldg1]
+    assert idfobjs[0].Name == 'Taj Mahal'
+    assert idfobjs[1].Name == 'Qoit tower'
+    
+    idfobjs.remove(bobj)
+    assert idfobjs.list2 == [abldg1]
+    assert idfobjs[0].Name == 'Qoit tower'
+    
+    idfobjs[0].Name = 'Karamba'
+    assert idfobjs.list2[0][1] == 'Karamba'

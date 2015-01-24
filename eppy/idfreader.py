@@ -24,7 +24,7 @@ from bunch_subclass import fieldnames, fieldvalues, GetRange, CheckRange
 import iddgaps
 import function_helpers as fh
 from idf_msequence import Idf_MSequence_old
-from idf_msequence import Idf_MSequence_alter
+from idf_msequence import Idf_MSequence
 
 def iddversiontuple(afile):
     """given the idd file or filehandle, return the version handle"""
@@ -82,7 +82,7 @@ def makebunches_alter(data, commdct):
         for obj in objs:
             bobj = makeabunch(commdct, obj, obj_i)
             list1.append(bobj)
-        bunchdt[key] = Idf_MSequence_alter(list1, objs)
+        bunchdt[key] = Idf_MSequence(list1, objs)
         # print "id(objs)", id(objs)
         # print "id(dt[key])", id(dt[key])
         # print "id(bunchdt[key].list2)", id(bunchdt[key].list2)
