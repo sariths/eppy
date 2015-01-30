@@ -17,6 +17,7 @@
 
 """functions to edit the E+ model"""
 
+from bunch_subclass import IdfObjects_Bunch
 from idfreader import makebunches
 from idfreader import idfreader, idfreader1
 from idfreader import makeabunch
@@ -486,7 +487,8 @@ class IDF0(object):
             raise IDDNotSetError(errortxt)
         readout = idfreader1(self.idfname, self.iddname,
                                 commdct=self.idd_info, block=self.block)
-        self.idfobjects, block, self.model, idd_info = readout
+        idfobjects_dict, block, self.model, idd_info = readout
+        self.idfobjects = IdfObjects_Bunch(idfobjects_dict)
         self.__class__.setidd(idd_info, block)
     def save(self):
         # TODO unit test

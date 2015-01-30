@@ -255,6 +255,24 @@ class EpBunch_5(EpBunch_4):
             
 EpBunch = EpBunch_5
 
+class IdfObjects_Bunch(Bunch):
+    """docstring for IdfObjects_Bunch"""
+    def upper(self, name):
+        return name.upper()
+    def namefix(self, name):
+        name = name.replace('_', ':')
+        return name.upper()
+    def __init__(self, *args, **kwargs):
+        super(IdfObjects_Bunch, self).__init__(*args, **kwargs)
+    def __setattr__(self, name, value):
+        cleanname = self.namefix(name)
+        super(IdfObjects_Bunch, self).__setattr__(cleanname, value)
+    def __getattr__(self, name):
+        cleanname = self.namefix(name)
+        return super(IdfObjects_Bunch, self).__getattr__(cleanname)
+        
+
+
 def main():
 
     # read code
