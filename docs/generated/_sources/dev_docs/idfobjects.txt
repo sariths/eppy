@@ -1,12 +1,6 @@
 
-IdfObjects
-==========
+A list is not enough
+====================
 
 
-Class IdfObjects
-----------------
-
-
-.. code:: python
-
-    
+Let
