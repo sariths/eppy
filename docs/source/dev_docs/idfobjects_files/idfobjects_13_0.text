@@ -1,0 +1,9 @@
+[
+MATERIAL:AIRGAP,          
+    F04 Wall air space resistance,    !- Name
+    0.15;                     !- Thermal Resistance
+, 
+MATERIAL:AIRGAP,          
+    F05 Ceiling air space resistance,    !- Name
+    0.18;                     !- Thermal Resistance
+]

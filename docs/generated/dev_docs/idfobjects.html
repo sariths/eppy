@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>A list is not enough &mdash; eppy 0.4.6.4a documentation</title>
+    <title>A list is not enough - Idf_MSequence &mdash; eppy 0.4.6.4a documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -51,9 +51,310 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="a-list-is-not-enough">
-<h1>A list is not enough<a class="headerlink" href="#a-list-is-not-enough" title="Permalink to this headline">¶</a></h1>
-<p>Let</p>
+  <div class="section" id="a-list-is-not-enough-idf-msequence">
+<h1>A list is not enough - Idf_MSequence<a class="headerlink" href="#a-list-is-not-enough-idf-msequence" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="some-list-operations">
+<h2>Some list operations<a class="headerlink" href="#some-list-operations" title="Permalink to this headline">¶</a></h2>
+<p>Let us open an idf file</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
+
+<span class="c"># if you have not done so, uncomment the following three lines</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../../../&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../../../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../../../eppy/resources/idffiles/V_7_2/dev1.idf&quot;</span>
+
+<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+<span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation
+
+MATERIAL:AIRGAP,
+    F04 Wall air space resistance,    !- Name
+    0.15;                     !- Thermal Resistance
+
+MATERIAL:AIRGAP,
+    F05 Ceiling air space resistance,    !- Name
+    0.18;                     !- Thermal Resistance</pre>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># we see that there are two MATERIAL:AIRGAP objects</span>
+<span class="c"># let us take a look at them</span>
+<span class="n">airgaps</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL:AIRGAP&quot;</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">airgaps</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[
+MATERIAL:AIRGAP,
+    F04 Wall air space resistance,    !- Name
+    0.15;                     !- Thermal Resistance
+,
+MATERIAL:AIRGAP,
+    F05 Ceiling air space resistance,    !- Name
+    0.18;                     !- Thermal Resistance
+]</pre>
+</div>
+<ul class="simple">
+<li>We can see that there are two items in airgaps</li>
+<li>each of these items are EpBunch objects</li>
+<li>We know that EpBunch objects are really <strong>syntactic sugar</strong> for a
+simpler data structure. Earlier documentation explains how this
+happens</li>
+<li>Just to review, let us dig a little deeper.</li>
+</ul>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># looking at one of the airgaps, calling it airgap1</span>
+<span class="n">airgap1</span> <span class="o">=</span> <span class="n">airgaps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">airgap1</span><span class="o">.</span><span class="n">obj</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># the underlying datasturcture we are working on is this one.</span>
+<span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="s">&quot;MATERIAL:AIRGAP&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Are these two lists really the same list. How can we check this. In
+python we check the <strong>id</strong> of the objects. If they have the same <strong>id</strong>
+then they are the same object</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="nb">id</span><span class="p">(</span><span class="n">airgap1</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+<span class="k">print</span> <span class="nb">id</span><span class="p">(</span><span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="s">&quot;MATERIAL:AIRGAP&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">4438418640</span>
+<span class="mi">4438418640</span>
+</pre></div>
+</div>
+<p>Aha ! they are the same object. We know that <tt class="docutils literal"><span class="pre">airgap1</span></tt> is sysntactic
+sugar for <tt class="docutils literal"><span class="pre">airgap.obj</span></tt>, because that is how an EpBunch object works.</p>
+<p><tt class="docutils literal"><span class="pre">airgap1</span></tt> was a single item in a list. We should start to look at the
+entire list.</p>
+<p>So we look at <tt class="docutils literal"><span class="pre">airgaps</span></tt> and compare it to
+<tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;]</span></tt></p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">airgaps</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[
+MATERIAL:AIRGAP,
+    F04 Wall air space resistance,    !- Name
+    0.15;                     !- Thermal Resistance
+,
+MATERIAL:AIRGAP,
+    F05 Ceiling air space resistance,    !- Name
+    0.18;                     !- Thermal Resistance
+]</pre>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="s">&quot;MATERIAL:AIRGAP&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F05 Ceiling air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>They don&#8217;t quite look the same. At least they seem to print out
+differently. Of course, both of them are lists.</p>
+<ul class="simple">
+<li>We know that <tt class="docutils literal"><span class="pre">airgaps</span></tt> is a list of EpBunch objects.</li>
+<li><tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;]</span></tt> looks like a list of lists</li>
+</ul>
+<p>We know that any operation on <tt class="docutils literal"><span class="pre">airgaps[0]</span></tt> will access
+<tt class="docutils literal"><span class="pre">airgaps[0].obj</span></tt> which is the same as
+<tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;][0]</span></tt>. But how about an operation on
+airgaps. if we delete an item in the <tt class="docutils literal"><span class="pre">airgaps</span></tt>, will it remove an item
+in <tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;]</span></tt>? As an example, let us look at a
+specific operation.</p>
+<ul class="simple">
+<li>for eppy to work correctly, poping a item in <tt class="docutils literal"><span class="pre">airgaps</span></tt> should pop
+an item in <tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;]</span></tt></li>
+<li>if <tt class="docutils literal"><span class="pre">airgaps</span></tt> is a list, <tt class="docutils literal"><span class="pre">airgaps.pop()</span></tt> will pop an item in
+airgaps. It will not pop an item in
+<tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;]</span></tt></li>
+<li>this is because, <tt class="docutils literal"><span class="pre">airgaps</span></tt> is a list. The list does not know that
+it is connected to another list &#8216;idf1.model.dt[&#8220;MATERIAL:AIRGAP&#8221;]&#8217;</li>
+</ul>
+<p>How do we make this happen? How can we connect the two lists ?</p>
+<p>In fact any list operation on <tt class="docutils literal"><span class="pre">airgaps</span></tt>, should produce the same list
+operation on <tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;]</span></tt>. Now, what are the
+list operations ? In python, you can see all the functions of a object
+by calling the function <strong>dir</strong> on it.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">simplelist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="k">print</span> <span class="nb">dir</span><span class="p">(</span><span class="n">simplelist</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;__add__&#39;</span><span class="p">,</span> <span class="s">&#39;__class__&#39;</span><span class="p">,</span> <span class="s">&#39;__contains__&#39;</span><span class="p">,</span> <span class="s">&#39;__delattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__delitem__&#39;</span><span class="p">,</span> <span class="s">&#39;__delslice__&#39;</span><span class="p">,</span> <span class="s">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s">&#39;__eq__&#39;</span><span class="p">,</span> <span class="s">&#39;__format__&#39;</span><span class="p">,</span> <span class="s">&#39;__ge__&#39;</span><span class="p">,</span> <span class="s">&#39;__getattribute__&#39;</span><span class="p">,</span> <span class="s">&#39;__getitem__&#39;</span><span class="p">,</span> <span class="s">&#39;__getslice__&#39;</span><span class="p">,</span> <span class="s">&#39;__gt__&#39;</span><span class="p">,</span> <span class="s">&#39;__hash__&#39;</span><span class="p">,</span> <span class="s">&#39;__iadd__&#39;</span><span class="p">,</span> <span class="s">&#39;__imul__&#39;</span><span class="p">,</span> <span class="s">&#39;__init__&#39;</span><span class="p">,</span> <span class="s">&#39;__iter__&#39;</span><span class="p">,</span> <span class="s">&#39;__le__&#39;</span><span class="p">,</span> <span class="s">&#39;__len__&#39;</span><span class="p">,</span> <span class="s">&#39;__lt__&#39;</span><span class="p">,</span> <span class="s">&#39;__mul__&#39;</span><span class="p">,</span> <span class="s">&#39;__ne__&#39;</span><span class="p">,</span> <span class="s">&#39;__new__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce_ex__&#39;</span><span class="p">,</span> <span class="s">&#39;__repr__&#39;</span><span class="p">,</span> <span class="s">&#39;__reversed__&#39;</span><span class="p">,</span> <span class="s">&#39;__rmul__&#39;</span><span class="p">,</span> <span class="s">&#39;__setattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__setitem__&#39;</span><span class="p">,</span> <span class="s">&#39;__setslice__&#39;</span><span class="p">,</span> <span class="s">&#39;__sizeof__&#39;</span><span class="p">,</span> <span class="s">&#39;__str__&#39;</span><span class="p">,</span> <span class="s">&#39;__subclasshook__&#39;</span><span class="p">,</span> <span class="s">&#39;append&#39;</span><span class="p">,</span> <span class="s">&#39;count&#39;</span><span class="p">,</span> <span class="s">&#39;extend&#39;</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">,</span> <span class="s">&#39;insert&#39;</span><span class="p">,</span> <span class="s">&#39;pop&#39;</span><span class="p">,</span> <span class="s">&#39;remove&#39;</span><span class="p">,</span> <span class="s">&#39;reverse&#39;</span><span class="p">,</span> <span class="s">&#39;sort&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>You can see <strong>pop</strong> in the list, and many of the commonly used functions
+like remove, reverse, insert.</p>
+<p>Can we subclass the list object, so that any operation on <tt class="docutils literal"><span class="pre">airgaps</span></tt>
+will produce the same operation on <tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;]</span></tt>.
+The subclassing strategy worked for us pretty well so far. <tt class="docutils literal"><span class="pre">Bunch</span></tt> is
+a subclass of <tt class="docutils literal"><span class="pre">dict</span></tt>. <tt class="docutils literal"><span class="pre">EpBunch</span></tt> is a subclass of <tt class="docutils literal"><span class="pre">Bunch</span></tt>.</p>
+<p>If we subclass <tt class="docutils literal"><span class="pre">list</span></tt>, we will have to override all the functions of
+<tt class="docutils literal"><span class="pre">list</span></tt> and make sure that we do not break anything. This is getting
+ugly very fast. The user may do many unexpected operations. For example,
+the following operations are possible with list.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">simplelist</span> <span class="o">=</span> <span class="n">simplelist</span> <span class="o">+</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">simplelist</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">33</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">simplelist</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">104</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">simplelist</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">33</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">simplelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">simplelist</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">42</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">simplelist</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">simplelist</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">42</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">simplelist</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">104</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We will be overriding all these functions. Can we be sure that they will
+all work correctly. This is going to be difficult. There has to be an
+easier way of doing this.</p>
+</div>
+<div class="section" id="mutablesequence">
+<h2>MutableSequence<a class="headerlink" href="#mutablesequence" title="Permalink to this headline">¶</a></h2>
+<p>The developers of python were expecting similar use cases and have given
+us some built-in objects that will help us to get there. Specifically we
+are importing the library <tt class="docutils literal"><span class="pre">collections</span></tt> and using a class called
+<tt class="docutils literal"><span class="pre">MutableSequence</span></tt>.</p>
+<p>The documentation for MutableSequence rather cryptic. It says that
+MutableSequence is a subclass of Sequence and that List is a built-in
+sequence. The end result is that MutableSequence has all the list
+operations. But the real magic here is that we do not have to override
+all the operations. We need to override only the follwoing operations:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">__getitem__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">__setitem__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">__delitem__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">__len__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">insert</span></tt></li>
+</ul>
+<p>If we override these operations, all the other operations will work as
+expected. MutableSequence is an <tt class="docutils literal"><span class="pre">Abstract</span> <span class="pre">Base</span> <span class="pre">Class</span></tt>. It cannot be
+used directly. We have to subclass it and use the subclass.</p>
+<p>Wow ! That is a lot of advanced stuff. It is hard to understand what it
+all means. To be honest, I was not smart enough to understand that by
+simply reading the standard python documentation. How would on even know
+that such an object exists in the python documentation ?</p>
+<p>Google to the rescue. I googled &#8220;subclassing lists in python&#8221;, or
+something to that effect. I found myself at:</p>
+<p><a class="reference external" href="http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list">http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list</a></p>
+<p>Here Alex Martelli makes an clearly described use case for using
+MutableSequence and gives us the code for doing so. I have included this
+code in the eppy source code (in eppy/idf_msequence.py) as an example
+of how to use MutableSequence and I have unit tested it.</p>
+<p>Alex Martelli is one of the old time developers in python. He is also
+one of the authors of &#8220;Python Cookbook&#8221;. If you get a chance to a
+BayPiggies meetup, you will probably meet him there. (Baypiggies is the
+the python meetup in the south bay of the San Francisco Bay Area.)</p>
+<p>Go take a look at the above link, spend some time reading it and then
+return to reading this documentation.</p>
+</div>
+<div class="section" id="idf-msequence">
+<h2>Idf_MSequence<a class="headerlink" href="#idf-msequence" title="Permalink to this headline">¶</a></h2>
+<p>Idf_MSequence ? What is that ?</p>
+<ul class="simple">
+<li>It is a sequence of idf objects</li>
+<li>it is subclassed from MutableSequence</li>
+<li>It could have been called <tt class="docutils literal"><span class="pre">Idf_MutableSequence</span></tt>, but was shortened
+slightly to <tt class="docutils literal"><span class="pre">Idf_MSequence</span></tt></li>
+</ul>
+<p>Let us take a look at the code for <tt class="docutils literal"><span class="pre">Idf_Msequence</span></tt></p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">collections</span>
+<span class="c"># a code snippet from Idf_MSequence</span>
+<span class="k">class</span> <span class="nc">Idf_MSequence</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list1</span><span class="p">,</span> <span class="n">list2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Idf_MSequence</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">list1</span> <span class="o">=</span> <span class="n">list1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">list2</span> <span class="o">=</span> <span class="n">list2</span>
+<span class="c"># more below snipped off</span>
+</pre></div>
+</div>
+<p>From our example with airgaps above:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">self.list1</span></tt> would be <tt class="docutils literal"><span class="pre">airgaps</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">self.list2</span></tt> would be <tt class="docutils literal"><span class="pre">airgaps.obj</span></tt></li>
+<li>we know that <tt class="docutils literal"><span class="pre">airgaps.obj</span></tt> is <tt class="docutils literal"><span class="pre">idf1.model.dt[&quot;MATERIAL:AIRGAP&quot;]</span></tt></li>
+</ul>
+<p>The rest of the code of <tt class="docutils literal"><span class="pre">Idf_MSequence</span></tt> simply overrides:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">__getitem__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">__setitem__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">__delitem__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">__len__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">insert</span></tt></li>
+</ul>
+<p>So that any operation on list1 will be duplicated in list2. Take a look
+at the code in eppy/idf_msequence.py and this will be clear.</p>
+<p><tt class="docutils literal"><span class="pre">airgaps</span></tt> is of type <tt class="docutils literal"><span class="pre">Idf_MSequence</span></tt>. Shall we check ?</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">airgaps</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>&lt;class 'eppy.idf_msequence.Idf_MSequence'&gt;</pre>
+</div>
+<p>Yup ! it is an Idf_MSequence</p>
+</div>
 </div>
 
 
@@ -62,6 +363,16 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">A list is not enough - Idf_MSequence</a><ul>
+<li><a class="reference internal" href="#some-list-operations">Some list operations</a></li>
+<li><a class="reference internal" href="#mutablesequence">MutableSequence</a></li>
+<li><a class="reference internal" href="#idf-msequence">Idf_MSequence</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="epbunch.html"
                         title="previous chapter">EpBunch</a></p>
