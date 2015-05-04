@@ -10,6 +10,8 @@ When completed it will list the steps needed to let you to add to the documentat
 Restructured text
 -----------------
 
+Leora sings praises of Restructured text
+
 Ipython notebook
 ----------------
 
