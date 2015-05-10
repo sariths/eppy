@@ -1,4 +1,4 @@
-.. sectionauthor:: Leora Tanjuatco <leora.tanjuatco@gmail.com>
+.. sectionauthor:: Leora Tanjuatco
 
 Documenting eppy
 ================
