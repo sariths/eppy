@@ -24,8 +24,14 @@ If you'd like to see an example of documentation written in the Ipython notebook
 Installing the notebook
 ^^^^^^^^^^^^^^^^^^^^^^^
 
+Installing the Ipython notebook is easy. `Start here <http://ipython.org/install.html>`_
+
 Using the notebook
 ^^^^^^^^^^^^^^^^^^
+
+Once you have installed the notebook, open Terminal and enter your virtual environment. Then, type "Ipython notebook" into Terminal. This will bring up a page with a list of all the items we have already created.
+
+Each item, which looks like a document, is composed of cells. Click through a few of the items already created to see how to make a header cell and how to run a code cell. It's very straightforward. I won't explain too much, so as not to insult your intelligence.
 
 Converting the notebook to RST
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -40,8 +46,15 @@ Restructured text
 Basics of RST
 ^^^^^^^^^^^^^
 
+RestructuredText is a very simple markup language. In fact, the RestructuredText documents look very similar to the HTML pages themselves. I'd recommend simply opening the .rst documents in the "source" file, which are in the "docs" file. It's easy to see how to markup your text.
+
+If you'd like a more structured approach, Thomas Cokelaer has created a nice `RestructuredText cheat sheet <http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html>`_
+
 Linking
 ^^^^^^^
+
+If you want to create a link to a website, the syntax is: 
+[Should I use ipython for this?]
 
 Adding pictures
 ^^^^^^^^^^^^^^^
