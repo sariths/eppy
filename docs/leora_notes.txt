@@ -1,0 +1,10 @@
+2015-05-02
+==========
+
+- make changes in ./docs/source/dev_docs/doc_eppy.rst
+- after making changes in doc_eppy.rst 
+	- goto ./docs in the terminal (be in virtualenv eppy)
+	- run "make html"
+- check the html by opening in the browser the following 
+	- ./docs/generated/index.html
+	- find your way to the html of the file you updated
