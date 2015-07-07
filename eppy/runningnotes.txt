@@ -1,4 +1,9 @@
+
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+
+2015-07-07
+----------
+make brandh i39_python3 for 
 
 2015-05-26
 ----------
