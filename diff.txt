@@ -1,0 +1,21 @@
+diff between 
+    8946a4c5059eefa3a890ed85fde0cbb9f97a8726
+    vs
+    i40_idfobject
+-------------    
+new
+    eppy/idf_msequence.py
+    eppy/tests/test_idf_msequence.py
+
+modified:
+    eppy/idfreader.py
+    eppy/modeleditor.py
+    eppy/tests/test_modeleditor.py
+-------------
+
+- run unit tests - DONE
+- run pylint on changed files - DONE
+- do a tinynumpy install - NO
+- convert to p3 and test - DONE
+- check for specific unit test for these changes
+- make one if needed
