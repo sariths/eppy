@@ -41,6 +41,11 @@ class NoIDFFilenameError(Exception):
     """Exception Object"""
     pass
 
+class DefaultIDDNotFoundError(Exception):
+    """Exception Object"""
+    pass
+
+
 def almostequal(first, second, places=7, printit=True):
     # taken from python's unit test
     # may be covered by Python's license
@@ -443,6 +448,21 @@ def zonevolume(idf, zonename):
 
     return volume
 
+def find_idd():
+    import os
+    import distutils.spawn
+    try:
+        energyplus = distutils.spawn.find_executable('EnergyPlus')
+        if not energyplus:
+            raise DefaultIDDNotFoundError()
+        energyplus = os.path.realpath(energyplus) # follow links in /usr/bin
+        folder = os.path.dirname(energyplus)
+        idd = os.path.join(folder, 'Energy+.idd')
+        if not os.path.isfile(idd):
+            raise DefaultIDDNotFoundError()
+        return idd
+    except:
+        raise DefaultIDDNotFoundError()
 
 class IDF0(object):
     """
@@ -501,8 +521,10 @@ class IDF0(object):
         - idd_info # done only once"""
         # TODO unit test
         if self.getiddname() == None:
-            errortxt = "IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)"
-            raise IDDNotSetError(errortxt)
+            iddname = find_idd()
+            self.setiddname(iddname)
+            # errortxt = "IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)"
+            # raise IDDNotSetError(errortxt)
         readout = idfreader1(
             self.idfname, self.iddname,
             commdct=self.idd_info, block=self.block)
