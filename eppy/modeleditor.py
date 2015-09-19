@@ -37,6 +37,10 @@ class IDDAlreadySetError(Exception):
     """Exception Object"""
     pass
 
+class NoIDFFilenameError(Exception):
+    """Exception Object"""
+    pass
+
 def almostequal(first, second, places=7, printit=True):
     # taken from python's unit test
     # may be covered by Python's license
@@ -461,6 +465,13 @@ class IDF0(object):
         if idfname != None:
             self.idfname = idfname
             self.read()
+        else:
+            idftxt = "" # empty string
+            from StringIO import StringIO
+            fhandle = StringIO(idftxt) # we can make a file handle of a string
+            idfname = fhandle
+            self.idfname = idfname
+            self.read()
     @classmethod
     def setiddname(cls, arg, testing=False):
         if cls.iddname == None:
@@ -698,7 +709,12 @@ class IDF5(IDF4):
             s = '!- Unix Line endings \n' + s
             slines = s.splitlines()
             s = '\n'.join(slines)
-        open(filename, 'w').write(s)
+        try:
+            open(filename, 'w').write(s)
+        except TypeError as e:
+            errortxt = "unable to save() without a usable filename. Use saveas(filename)"
+            raise NoIDFFilenameError(errortxt)
+            
     def saveas(self, filename, lineendings='default'):
         self.idfname = filename
         self.save(lineendings=lineendings)
@@ -706,6 +722,19 @@ class IDF5(IDF4):
         """save a copy as filename"""
         self.save(filename, lineendings=lineendings)
 
+
+# class IDF6(IDF5):
+#     """subclass of IDF5. Uses functions of IDF1, 2, 3, 4, and IDF5 """
+#     def __init__(self, idfname=None):
+#         super(IDF5, self).__init__(idfname)
+#         if idfname = None:
+#             idftxt = "" # empty string
+#             from StringIO import StringIO
+#             fhandle = StringIO(idftxt) # we can make a file handle of a string
+#             return IDF(fhandle) # initialize the IDF object with the file handle
+
+            
+        
 
 IDF = IDF5
 
