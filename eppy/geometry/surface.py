@@ -1,4 +1,6 @@
 # Copyright (c) 2012 Tuan Tran
+
+# This file is part of eppy.
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -9,18 +11,23 @@
 # Wrote by Tuan Tran trantuan@hawaii.edu / tranhuuanhtuan@gmail.com
 # School of Architecture, University of Hawaii at Manoa
 
-####### The following code within the block credited by ActiveState Code
-# Recipes code.activestate.com
+# The following code within the block
+# credited by ActiveState Code Recipes code.activestate.com
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
-
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import numpy as np
+try:
+    import numpy as np
+    from numpy import arccos as acos
+except ImportError as err:
+    from tinynumpy import tinynumpy as np
+    from tinynumpy import tinylinalg as linalg
+    from math import acos as acos
 import math
+
 
 def area(poly):
     """Area of a polygon poly"""
@@ -35,21 +42,16 @@ def area(poly):
         total[0] += prod[0]
         total[1] += prod[1]
         total[2] += prod[2]
+    if total == [0, 0, 0]:  # points are in a straight line - no area
+        return 0
     result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
     return abs(result/2)
 
-#unit normal vector of plane defined by points a, b, and c
-def unit_normal(a_pnt, b_pnt, c_pnt):
-    """unit normal"""
-    x_val = np.linalg.det(
-        [[1, a_pnt[1], a_pnt[2]], [1, b_pnt[1], b_pnt[2]], [1, c_pnt[1],
-                                                            c_pnt[2]]])
-    y_val = np.linalg.det(
-        [[a_pnt[0], 1, a_pnt[2]], [b_pnt[0], 1, b_pnt[2]], [c_pnt[0], 1,
-                                                            c_pnt[2]]])
-    z_val = np.linalg.det(
-        [[a_pnt[0], a_pnt[1], 1], [b_pnt[0], b_pnt[1], 1], [c_pnt[0],
-                                                            c_pnt[1], 1]])
+def unit_normal(pt_a, pt_b, pt_c):
+    """unit normal vector of plane defined by points pt_a, pt_b, and pt_c"""
+    x_val = np.linalg.det([[1, pt_a[1], pt_a[2]], [1, pt_b[1], pt_b[2]], [1, pt_c[1], pt_c[2]]])
+    y_val = np.linalg.det([[pt_a[0], 1, pt_a[2]], [pt_b[0], 1, pt_b[2]], [pt_c[0], 1, pt_c[2]]])
+    z_val = np.linalg.det([[pt_a[0], pt_a[1], 1], [pt_b[0], pt_b[1], 1], [pt_c[0], pt_c[1], 1]])
     magnitude = (x_val**2 + y_val**2 + z_val**2)**.5
     mag = (x_val/magnitude, y_val/magnitude, z_val/magnitude)
     if magnitude < 0.00000001:
@@ -58,9 +60,9 @@ def unit_normal(a_pnt, b_pnt, c_pnt):
 ## end of http://code.activestate.com/recipes/578276/ }}}
 
 # distance between two points
-def dist(pnt1, pnt2):
+def dist(pt1, pt2):
     """Distance between two points"""
-    return ((pnt2[0] - pnt1[0])**2 + (pnt2[1] - pnt1[1])**2 + (pnt2[2] - pnt1[2])**2)**0.5
+    return ((pt2[0] - pt1[0])**2 + (pt2[1] - pt1[1])**2 + (pt2[2] - pt1[2])**2)**0.5
 
 # width of a rectangular polygon
 def width(poly):
@@ -83,17 +85,17 @@ def height(poly):
     else:
         return min(dist(poly[num], poly[0]), dist(poly[1], poly[0]))
 
-# angle between two vectors
+
 def angle2vecs(vec1, vec2):
     """angle between two vectors"""
     # vector a * vector b = |a|*|b|* cos(angle between vector a and vector b)
     dot = np.dot(vec1, vec2)
-    vec1_modulus = np.sqrt((vec1*vec1).sum())
-    vec2_modulus = np.sqrt((vec2*vec2).sum())
+    vec1_modulus = np.sqrt(np.multiply(vec1, vec1).sum())
+    vec2_modulus = np.sqrt(np.multiply(vec2, vec2).sum())
     if (vec1_modulus * vec2_modulus) == 0:
         cos_angle = 1
     else: cos_angle = dot / (vec1_modulus * vec2_modulus)
-    return math.degrees(np.arccos(cos_angle))
+    return math.degrees(acos(cos_angle))
 
 # orienation of a polygon poly
 def azimuth(poly):
@@ -120,4 +122,3 @@ def tilt(poly):
     vec_z = np.array([0, 0, 1])
     # return (90 - angle2vecs(vec_alt, vec_z)) # update by Santosh
     return angle2vecs(vec_alt, vec_z)
-    

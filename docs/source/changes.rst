@@ -1,6 +1,122 @@
 Changes
 =======
 
+release r0.5.44
+~~~~~~~~~~~~~~~
+
+2017-05-23
+----------
+
+- IDF.run() works with E+ version >= 8.3
+    - This will run the idf file
+    - documentation updated to reflect this
+- Some changes made to support eppy working on grasshopper
+    - more work needs to be done on this
+
+release r0.5.43
+~~~~~~~~~~~~~~~
+
+2017-02-09
+----------
+
+fixed the bug in the setup file
+
+release r0.5.42
+~~~~~~~~~~~~~~~
+
+2016-12-31
+~~~~~~~~~~
+
+bugfix for idfobjects with no fieldnames. Such fields are named A!, A2, A3/ N1, N2, N3 taken from the IDD file
+
+There is a bug in the setup.py in this version
+
+2016-11-02
+----------
+
+It is now possible to run E+ from eppy
+
+release r0.5.41
+~~~~~~~~~~~~~~~
+
+2016-09-14
+----------
+
+bugfix in loopdiagram.py. Some cleanup by removing extra copies of loopdiagram.py
+
+release r0.5.40
+~~~~~~~~~~~~~~~
+
+2016-09-06
+----------
+
+This is a release for python2 and python3. pip install will automatically install the correct version.
+
+release r0.5.31
+~~~~~~~~~~~~~~~
+
+2016-09-04
+----------
+
+bugfix so that json_functions can have idf objects with names that have dots in them
+
+release r0.5.3
+~~~~~~~~~~~~~~
+
+2016-07-21
+----------
+
+tab completion of fileds (of idfobjects) works in ipython and ipython notebook
+
+2016-07-09
+----------
+
+added:
+
+- construction.rfactor and material.rfactor
+- construction.uvalue and material.uvalue
+- construction.heatcapacity and material.heatcapacity
+- the above functions do not work in all cases yet. But are still usefull
+
+added:
+
+- zone.zonesurfaces -> return all surfaces of the zone
+- surface.subsurfaces -> will return all the subsurfaces (windows, doors etc.) that belong to the surface
+
+added two functions that scan through the entire idf file:
+
+- EpBunch.getreferingobjs(args)
+- EpBunch.get_referenced_object(args)
+- they make it possible for an idf object to scan through it's idf file and find other idf objects that are related to it (thru object-list and reference) 
+
+
+2016-05-31
+----------
+
+refactored code for class IDF and class EpBunch
+fixed a bug in modeleditor.newidfobject
+
+release r0.5.2
+~~~~~~~~~~~~~~
+
+2016-05-27
+----------
+
+added ability to update idf files thru JSON messages.
+
+2016-04-02
+----------
+
+Replaced library bunch with munch
+
+release r0.5.1
+~~~~~~~~~~~~~~
+
+2016-02-07
+----------
+
+- bug fix -> read files that have mixed line endings. Both DOS and Unix line endings
+
 release r0.5
 ~~~~~~~~~~~~
 

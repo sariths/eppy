@@ -6,6 +6,10 @@
 # =======================================================================
 """from BUILDINGSURFACE:DETAILED and FENESTRATIONSURFACE:DETAILED make a wall
 floor, celiling etc or a window"""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 # key fields:
 # Name
@@ -63,10 +67,10 @@ floor, celiling etc or a window"""
 # ('WINDOW',  Window, None)
 # ('DOOR', Door, None)
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 
 class NotImplementedError(Exception):
@@ -402,7 +406,7 @@ def glazeddoor(idf, fsdobject, deletebsd=True, setto000=False):
         return simpleobject
     return None
 
-def simplesufrace(idf, bsd, deletebsd=True, setto000=False):
+def simplesurface(idf, bsd, deletebsd=True, setto000=False):
     """convert a bsd (buildingsurface:detailed) into a simple surface"""
     funcs = (wallexterior,
         walladiabatic,

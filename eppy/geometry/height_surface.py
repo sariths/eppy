@@ -8,13 +8,16 @@
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 ## modified by Tuan Tran trantuan@hawaii.edu at L+U, www.coolshadow.com
 """height and surface"""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError as err:
+    import tinynumpy as np
+
 
 # area of a polygon
 def area(poly):
@@ -45,11 +48,11 @@ def height(poly):
 #unit normal vector of plane defined by points a, b, and c
 def unit_normal(apnt, bpnt, cpnt):
     """unit normal"""
-    xvar = np.linalg.det([
+    xvar = np.tinylinalg.det([
         [1, apnt[1], apnt[2]], [1, bpnt[1], bpnt[2]], [1, cpnt[1], cpnt[2]]])
-    yvar = np.linalg.det([
+    yvar = np.tinylinalg.det([
         [apnt[0], 1, apnt[2]], [bpnt[0], 1, bpnt[2]], [cpnt[0], 1, cpnt[2]]])
-    zvar = np.linalg.det([
+    zvar = np.tinylinalg.det([
         [apnt[0], apnt[1], 1], [bpnt[0], bpnt[1], 1], [cpnt[0], cpnt[1], 1]])
     magnitude = (xvar**2 + yvar**2 + zvar**2)**.5
     if magnitude < 0.00000001:

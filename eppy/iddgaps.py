@@ -9,7 +9,6 @@
 With \note fields as indicated
 This code fills those gaps
 see: SCHEDULE:DAY:LIST as an example"""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -39,19 +38,19 @@ from __future__ import unicode_literals
 # gather the repeating field names (without the integer)
 # generate all the repeating fields for all variables
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import eppy.bunchhelpers as bunchhelpers
 
 def cleaniddfield(acomm):
     """make all the keys lower case"""
-    for key in acomm.keys():
+    for key in list(acomm.keys()):
         val = acomm[key]
         acomm[key.lower()] = val
-    for key in acomm.keys():
+    for key in list(acomm.keys()):
         val = acomm[key]
         if key != key.lower():
             acomm.pop(key)
@@ -65,7 +64,7 @@ def getfields(comm):
     """get all the fields that have the key 'field' """
     fields = []
     for field in comm:
-        if field.has_key('field'):
+        if 'field' in field:
             fields.append(field)
     return fields
 
@@ -76,7 +75,7 @@ def repeatingfieldsnames(fields):
     fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
     fnames = [(bunchhelpers.replaceint(fname), None) for fname in fnames]
     dct = dict(fnames)
-    repnames = fnames[:len(dct.keys())]
+    repnames = fnames[:len(list(dct.keys()))]
     return repnames
 
 # TODO : looks like "TABLE:MULTIVARIABLELOOKUP" will have to be skipped for now.
@@ -150,17 +149,22 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
         commdct[key_i] = comm
     return nofirstfields
 
-def missingkeys_nonstandard(commdct, dtls, objectlist, afield='afiled %s'):
+def missingkeys_nonstandard(block, commdct, dtls, objectlist, afield='afiled %s'):
     """This is an object list where thre is no first field name
     to give a hint of what the first field name should be"""
     afield = 'afield %s'
     for key_txt in objectlist:
         key_i = dtls.index(key_txt.upper())
         comm = commdct[key_i]
+        if block:
+            blk = block[key_i]
         for i, cmt in enumerate(comm):
             if cmt == {}:
                 first_i = i
                 break
         for i, cmt in enumerate(comm):
             if i >= first_i:
-                comm[i]['field'] = afield % (i - first_i +1,)
+                if block:
+                    comm[i]['field'] = ['%s' % (blk[i])]
+                else:
+                    comm[i]['field'] = [afield % (i - first_i + 1,),]
